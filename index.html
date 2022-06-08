@@ -13,7 +13,7 @@
 <body>
     <script>
         const choices = ['Rock', 'Paper', 'Scissors'];
-        let playerChoice = prompt("Choose Your Weapon. Type Either 'Rock', 'Paper', or 'Scissor':");
+        //let playerChoice = prompt("Choose Your Weapon. Type Either 'Rock', 'Paper', or 'Scissor':");
 
         //computer will randomly choose an index from the choices array
         let computerPlay = () => choices[Math.floor(Math.random() * 3)];
@@ -21,41 +21,79 @@
 
         //Plays a single round of rock paper scissors between the user and computer.
         let playRound = (playerSelection, computerSelection) => {
+            
+
 
             let gameState = true;
 
             while (gameState) {
-                if (playerSelection == computerSelection) {
-                    return "It's a tie! Choose again to settle the the score.";
-
-                } else if (playerSelection == 'rock' && computerSelection == 'scissors'
-                    || playerSelection == 'scissors' && computerSelection == 'paper'
-                    || playerSelection == 'paper' && computerSelection == 'rock') {
+                if (playerSelection.toLowerCase() == 'rock' && computerSelection == 'Scissors'
+                    || playerSelection.toLowerCase() == 'scissors' && computerSelection == 'Paper'
+                    || playerSelection.toLowerCase() == 'paper' && computerSelection == 'Rock') {
                     gameState = false;
-                    return `Round won! ${upperCaseFirst(playerSelection)} beats ${upperCaseFirst(computerSelection)}!`;
+                    console.log(`Round won! ${upperCaseFirst(playerSelection.toLowerCase())} beats ${upperCaseFirst(computerSelection)}!`);
+                    return 1; //PLAYER WINS: will be used to decide who to give points to in the game() function
+                    
+                    } else if(playerSelection.toLowerCase() == 'rock' && computerSelection == 'Paper'
+                    || playerSelection.toLowerCase() == 'scissors' && computerSelection == 'Rock'
+                    || playerSelection.toLowerCase() == 'paper' && computerSelection == 'Scissors'){
+                    gameState = false;
+                    console.log(`Round lost, ${upperCaseFirst(playerSelection.toLowerCase())} loses to ${upperCaseFirst(computerSelection)}.`);
+                    return 2; //COMPUTER WINS: will be used to decide who to give points to in the game() function
 
                 } else {
-                    gameState = false;
-                    return `Round lost, ${upperCaseFirst(playerSelection)} loses to ${upperCaseFirst(computerSelection)}.`;
-                }
+                    console.log("It's a tie! Choose again to settle the the score.");
+                    return 0; //TIE: will be used to decide who to give points to in the game() function
+
+
+                } 
             }
         };
-        //console.log(playRound(playerChoice, computerPlay()));
+        //onsole.log(playRound('RoCK', computerPlay()));
 
-        //Starts a game that last for 5 rounds
-        let game = () => {
-            let rounds = 0;
-
-                for (let i = 0; i < 5; i++) {
-                    rounds++;
-                    console.log(playRound());
-                    console.log(rounds);
-                }
-            
-        }
-
-        //console.log(game());
         
+        //Starts a game that last for 5 rounds. Game works as intended for now, but instead of 
+        let game = () => {
+            let rounds = 1;
+            let compScore = 0;
+            let playerScore = 0;
+            for (let i = 0; i < 5 ; i++) {
+                console.log('Round: ' + rounds);
+                let playerChoice = prompt("Choose Your Weapon. Type Either 'Rock', 'Paper', or 'Scissor':");
+                let x = playRound(playerChoice, computerPlay());
+                rounds += 1;
+                
+                if (x == 1) {//player earns point
+                    playerScore += 1;
+                    
+                } else if (x == 2) {//computer earns a point
+                    compScore += 1;
+                    
+                } else {//nobdody  earns a point
+                    compScore += 0;
+                    playerScore += 0;
+
+                }
+            }
+
+            while(rounds != 5){
+            if (compScore < playerScore) {
+                console.log(`You Win! Final Scores \nYou: ${playerScore}\nComputer: ${compScore}`);
+                return 'Game Over';
+            } else if(compScore > playerScore) {
+                console.log(`You Lose! Final Scores \nYou: ${playerScore}\nComputer: ${compScore}`);
+                return 'Game Over';
+            } else {
+                console.log(`Its a tie, nodboy wins! Final Scores \nYou: ${playerScore}\nComputer: ${compScore}`);
+                return 'Game Over';
+            }
+        }
+            
+
+        };
+
+        console.log(game());
+
 
         //Captializes the first letter of a string value and returns it
         function upperCaseFirst(string) {
