@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="javascript" href="javascript.js">
+    <title>Rock Paper Scissors</title>
+</head>
+
+<body>
+    <script>
+        const choices = ['Rock', 'Paper', 'Scissors'];
+        let playerChoice = prompt("Choose Your Weapon. Type Either 'Rock', 'Paper', or 'Scissor':");
+
+        //computer will randomly choose an index from the choices array
+        let computerPlay = () => choices[Math.floor(Math.random() * 3)];
+        //console.log(computerPlay());
+
+        //Plays a single round of rock paper scissors between the user and computer.
+        let playRound = (playerSelection, computerSelection) => {
+
+            let gameState = true;
+
+            while (gameState) {
+                if (playerSelection == computerSelection) {
+                    return "It's a tie! Choose again to settle the the score.";
+
+                } else if (playerSelection == 'rock' && computerSelection == 'scissors'
+                    || playerSelection == 'scissors' && computerSelection == 'paper'
+                    || playerSelection == 'paper' && computerSelection == 'rock') {
+                    gameState = false;
+                    return `Round won! ${upperCaseFirst(playerSelection)} beats ${upperCaseFirst(computerSelection)}!`;
+
+                } else {
+                    gameState = false;
+                    return `Round lost, ${upperCaseFirst(playerSelection)} loses to ${upperCaseFirst(computerSelection)}.`;
+                }
+            }
+        };
+        //console.log(playRound(playerChoice, computerPlay()));
+
+        //Starts a game that last for 5 rounds
+        let game = () => {
+            let rounds = 0;
+
+                for (let i = 0; i < 5; i++) {
+                    rounds++;
+                    console.log(playRound());
+                    console.log(rounds);
+                }
+            
+        }
+
+        //console.log(game());
+        
+
+        //Captializes the first letter of a string value and returns it
+        function upperCaseFirst(string) {
+            return string.replace(string[0], string[0].toUpperCase());
+        }
+
+    </script>
+
+</body>
+
+</html>
