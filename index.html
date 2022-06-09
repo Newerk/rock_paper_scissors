@@ -38,46 +38,50 @@
             }
         }
 
-        function game() {
+        //Starts a game of RPS. Parameter takes a num that will determine how many points it will take to win a game
+        function game(points) {
             let turnWinner;
             let playerChoice;
+            let scoreBoard; 
             let playerScore = 0, computerScore = 0;
 
-            for (let i = 0; i < 30; i++) {//play until game ends when the computer or player wins 5 points
+
+            for (let i = 0; i < Number.MAX_VALUE; i++) {//play until game ends when the computer or player wins enough points
                 playerChoice = prompt("Choose Your Weapon. Type Either 'Rock', 'Paper', or 'Scissor':");
                 turnWinner = playRound(playerChoice, computerPlay()); //result of a single round played. declares who won
+                scoreBoard = `Computer points: ${computerScore}\nPlayer points: ${playerScore}`;
 
-                    if (playerScore === 5) {
+                    if (playerScore === points) {
                         console.log(`You Win! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`);
                         break;
 
-                    } else if (computerScore === 5) {
+                    } else if (computerScore === points) {
                         console.log(`You Lose! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`);
                         break;
 
                     }
                     else if (addPoints(turnWinner) === 0) { //nobody wins a point, round must be replayed
-                        roundCounter--;
                         console.log(prompt("Tie! Try again."));
-                        console.log("Comp points: " + computerScore + "\nPlayer points: " + playerScore);
+                        console.log("Tie match");
+                        console.log(scoreBoard);
 
                     } else if (addPoints(turnWinner) === 2) { //comp wins a point
                         computerScore++;
                         console.log('Computer won');
-                        console.log("Comp points: " + computerScore + "\nPlayer points: " + playerScore);
+                        console.log(scoreBoard);
 
 
                     } else { //player wins a point
                         playerScore++;
                         console.log('Player won');
-                        console.log("Comp points: " + computerScore + "\nPlayer points: " + playerScore);
+                        console.log(scoreBoard);
 
                     }
                 }
 
             }
 
-        console.log(game());
+        console.log(game(5));
 
 
 
