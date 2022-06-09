@@ -13,12 +13,8 @@
 <body>
     <script>
         const choices = ['Rock', 'Paper', 'Scissors'];
-        //let playerChoice = prompt("Choose Your Weapon. Type Either 'Rock', 'Paper', or 'Scissor':");
-
-        //computer will randomly choose an index from the choices array
         let computerPlay = () => choices[Math.floor(Math.random() * 3)];
 
-        //Plays a single round of rock paper scissors between the user and computer.
         function playRound(playerSelection, computerSelection) {
             let gameState = true;
 
@@ -38,60 +34,48 @@
                 } else {
                     return 0; //TIE: will be used to decide who to give points to in the game() function
 
-
                 }
             }
         }
 
-        //Starts a game that ends after 5 points.
         function game() {
             let turnWinner;
             let playerChoice;
             let playerScore = 0, computerScore = 0;
 
-            
-
-            for (let i = 0; i < 100 ; i++) {//play until game ends when the computer or player wins 5 points
+            for (let i = 0; i < 30; i++) {//play until game ends when the computer or player wins 5 points
                 playerChoice = prompt("Choose Your Weapon. Type Either 'Rock', 'Paper', or 'Scissor':");
                 turnWinner = playRound(playerChoice, computerPlay()); //result of a single round played. declares who won
-                console.log("++++++++++++++++++++++++++++++");
+
+                    if (playerScore === 5) {
+                        console.log(`You Win! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`);
+                        break;
+
+                    } else if (computerScore === 5) {
+                        console.log(`You Lose! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`);
+                        break;
+
+                    }
+                    else if (addPoints(turnWinner) === 0) { //nobody wins a point, round must be replayed
+                        roundCounter--;
+                        console.log(prompt("Tie! Try again."));
+                        console.log("Comp points: " + computerScore + "\nPlayer points: " + playerScore);
+
+                    } else if (addPoints(turnWinner) === 2) { //comp wins a point
+                        computerScore++;
+                        console.log('Computer won');
+                        console.log("Comp points: " + computerScore + "\nPlayer points: " + playerScore);
 
 
-                if (playerScore === 5) {
-                    console.log(`You Win! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`);
-                    break;
+                    } else { //player wins a point
+                        playerScore++;
+                        console.log('Player won');
+                        console.log("Comp points: " + computerScore + "\nPlayer points: " + playerScore);
 
-                }else if (computerScore === 5){
-                    console.log(`You Lose! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`);
-                    break;
-
+                    }
                 }
-                else if(addPoints(turnWinner) === 0){ //nobody wins a point, round must be replayed
-                    console.log("Tie! Rerun the round");
-                    console.log(prompt("Tie! Rerun the round"));
-                    console.log("Comp points: " + computerScore);
-                    console.log("Player points: " + playerScore);
 
-                } else if (addPoints(turnWinner) === 2) { //comp wins a point
-                    //rounds += 1;
-                    computerScore += 1;
-                    console.log('computer won');
-                    console.log("Comp points: " + computerScore);
-                    console.log("Player points: " + playerScore);
-
-                    
-                } else { //player wins a point
-                    //rounds += 1;
-                    playerScore += 1;
-                    console.log('player won');
-                    console.log("Comp points: " + computerScore);
-                    console.log("Player points: " + playerScore);
-
-                }
- 
             }
-
-        }
 
         console.log(game());
 
@@ -106,16 +90,15 @@
         function addPoints(value) { //takes the current round's playRound() value
             if (value == 1) {//player gain 1 point
                 return 1;
-                
+
             } else if (value == 2) {//computer gain 1 point
                 return 2;
-                
+
             } else {//nobody gains a point
                 return 0;
-                
+
             }
         }
-
     </script>
 
 </body>
