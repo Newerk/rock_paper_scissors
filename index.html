@@ -11,9 +11,17 @@
 </head>
 
 <body>
+    <button id="rock">Rock</button>
+    <button id="paper">Paper</button>
+    <button id="scissors">Scissors</button>
     <script>
         const choices = ['Rock', 'Paper', 'Scissors'];
         let computerPlay = () => choices[Math.floor(Math.random() * 3)];
+
+        const rockBtn = document.querySelector('#rock');
+        const paperBtn = document.querySelector('#paper');
+        const scissorsBtn = document.querySelector('#scissors');
+
 
         function playRound(playerSelection, computerSelection) {
             let gameState = true;
