@@ -11,36 +11,101 @@
 </head>
 
 <body>
-    <button id="rock">Rock</button>
-    <button id="paper">Paper</button>
-    <button id="scissors">Scissors</button>
-
-    <div class="result"></div>
     <script>
         const choices = ['Rock', 'Paper', 'Scissors'];
         let computerPlay = () => choices[Math.floor(Math.random() * 3)];
-        const results = document.createElement('div'); //creates a div element
-        // const para = document.createElement('p');
-        document.body.appendChild(results);
 
+        const buttons = document.createElement('div');
+        buttons.className = 'buttons';
 
-        const rockBtn = document.querySelector('#rock');
+        const rockBtn = document.createElement('button');
+        rockBtn.id = 'rock';
+        let rockBtnText = document.createTextNode('Rock');
+        rockBtn.appendChild(rockBtnText);
+
+        const paperBtn = document.createElement('button');
+        paperBtn.id = 'paper';
+        let paperBtnText = document.createTextNode('Paper');
+        paperBtn.appendChild(paperBtnText);
+
+        const scissorsBtn = document.createElement('button');
+        scissorsBtn.id = 'scissors';
+        let scissorsBtnText = document.createTextNode('Scissors');
+        scissorsBtn.appendChild(scissorsBtnText);
+
         rockBtn.addEventListener('click', () => {
-            results.append(playRound('rock', computerPlay()));
-            console.log(results);
+
         });
 
-        const paperBtn = document.querySelector('#paper');
         paperBtn.addEventListener('click', () => {
-            results.append(playRound('paper', computerPlay()));
-            console.log(results);
+
         });
 
-        const scissorsBtn = document.querySelector('#scissors');
         scissorsBtn.addEventListener('click', () => {
-            results.append(playRound('scissors', computerPlay()));
-            console.log(results);
+
         });
+
+        buttons.append(rockBtn);
+        buttons.append(paperBtn);
+        buttons.append(scissorsBtn);
+        console.log(buttons);
+
+        document.body.appendChild(buttons);
+
+
+        const playerScore = document.createElement('div');
+        playerScore.id = 'playerScore';
+        // playerScore.setAttribute('style', 'border: 3px solid red');
+        let playerScoreText = document.createTextNode('You: ');
+        playerScore.appendChild(playerScoreText);
+        document.body.appendChild(playerScore);
+        // document.body.insertBefore(playerScore, buttons);
+
+        console.log(playerScore);
+
+        const compScore = document.createElement('div');
+        compScore.id = 'compScore';
+        // compScore.setAttribute('style', 'border: 3px solid red');
+        let compScoreText = document.createTextNode('Computer: ');
+        compScore.appendChild(compScoreText);
+        document.body.appendChild(compScore);
+        // document.body.after(playerScore, compScore);
+
+        console.log(compScore);
+
+        const scoreContainer = document.createElement('div');
+        scoreContainer.className = 'container';
+        console.log(scoreContainer);
+
+        const announcer = document.createElement('p');
+
+        // this text content will update as the state of the game progresses("Computer Won","Player Won","Tie! Try Again",
+        // "You Win! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}", "You Lose! Final Scores \nYou: ${playerScore}\n
+        // Computer: ${computerScore}")
+        announcer.textContent = 'Choose your hand to start the game'; 
+        document.body.appendChild(announcer);
+        console.log(announcer);
+
+
+        const gameStartBtn = document.createElement('button');
+        gameStartBtn.id = 'game-start';
+        let gameStartBtnText = document.createTextNode('Start Game');
+        gameStartBtn.appendChild(gameStartBtnText);
+        buttons.append(gameStartBtn);
+        gameStartBtn.addEventListener('click', game(5));
+
+
+
+
+        function buttonClick(){
+            //if rockBtn clicked return 'rock'
+            //if paperBtn clicked return 'paper'
+            //if scissorsBtn clicked return 'scissors'
+            return 'rock';//temp value for testing purposes
+        }
+
+
+
 
 
         function playRound(playerSelection, computerSelection) {
@@ -51,16 +116,16 @@
                     || playerSelection.toLowerCase() == 'scissors' && computerSelection == 'Paper'
                     || playerSelection.toLowerCase() == 'paper' && computerSelection == 'Rock') {
                     gameState = false;
-                    return 'win'; //1 = PLAYER WINS: will be used to decide who to give points to in the game() function 
+                    return 1; //1 = PLAYER WINS: will be used to decide who to give points to in the game() function 
 
                 } else if (playerSelection.toLowerCase() == 'rock' && computerSelection == 'Paper'
                     || playerSelection.toLowerCase() == 'scissors' && computerSelection == 'Rock'
                     || playerSelection.toLowerCase() == 'paper' && computerSelection == 'Scissors') {
                     gameState = false;
-                    return 'lose'; //2 = COMPUTER WINS: will be used to decide who to give points to in the game() function 
+                    return 1; //2 = COMPUTER WINS: will be used to decide who to give points to in the game() function 
 
                 } else {
-                    return 'tie'; //0 = TIE: will be used to decide who to give points to in the game() function 
+                    return 0; //0 = TIE: will be used to decide who to give points to in the game() function 
 
                 }
             }
@@ -76,33 +141,33 @@
 
             for (let i = 0; i < Number.MAX_VALUE; i++) {//play until game ends when the computer or player wins enough points
                 // playerChoice = prompt("Choose Your Weapon. Type Either 'Rock', 'Paper', or 'Scissor':");
+                playerChoice = document.body.addEventListener('click', buttonClick);
                 turnWinner = playRound(playerChoice, computerPlay()); //result of a single round played. declares who won
                 scoreBoard = `Computer points: ${computerScore}\nPlayer points: ${playerScore}`;
 
                 if (playerScore === points) {
-                    console.log(`You Win! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`);
+                    announcer.textContent =`You Win! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`;
                     break;
 
                 } else if (computerScore === points) {
-                    console.log(`You Lose! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`);
+                    announcer.textContent=`You Lose! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`;
                     break;
 
                 }
                 else if (addPoints(turnWinner) === 0) { //nobody wins a point, round must be replayed
-                    console.log(prompt("Tie! Try again."));
-                    console.log("Tie match");
-                    console.log(scoreBoard);
+                    announcer.textContent= "Tie! Try again.";
+                    //console.log("Tie match");
+                    //console.log(scoreBoard);
 
                 } else if (addPoints(turnWinner) === 2) { //comp wins a point
                     computerScore++;
-                    console.log('Computer won');
-                    console.log(scoreBoard);
-
+                    announcer.textContent= 'Computer won';
+                    compScoreText.appendChild(computerScore);
 
                 } else { //player wins a point
                     playerScore++;
-                    console.log('Player won');
-                    console.log(scoreBoard);
+                    announcer.textContent= 'Player won';
+                    playerScoreText.appendChild(playerScore);
 
                 }
             }
