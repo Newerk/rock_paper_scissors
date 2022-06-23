@@ -34,14 +34,17 @@
         scissorsBtn.appendChild(scissorsBtnText);
 
         rockBtn.addEventListener('click', () => {
+            playRound('rock', computerPlay);
 
         });
 
         paperBtn.addEventListener('click', () => {
+            playRound('paper', computerPlay);
 
         });
 
         scissorsBtn.addEventListener('click', () => {
+            playRound('scissors', computerPlay);
 
         });
 
@@ -82,7 +85,7 @@
         // this text content will update as the state of the game progresses("Computer Won","Player Won","Tie! Try Again",
         // "You Win! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}", "You Lose! Final Scores \nYou: ${playerScore}\n
         // Computer: ${computerScore}")
-        announcer.textContent = 'Choose your hand to start the game'; 
+        announcer.textContent = 'Click Start Game to Begin';
         document.body.appendChild(announcer);
         console.log(announcer);
 
@@ -92,35 +95,23 @@
         let gameStartBtnText = document.createTextNode('Start Game');
         gameStartBtn.appendChild(gameStartBtnText);
         buttons.append(gameStartBtn);
-        gameStartBtn.addEventListener('click', game(5));
-
-
-
-
-        function buttonClick(){
-            //if rockBtn clicked return 'rock'
-            //if paperBtn clicked return 'paper'
-            //if scissorsBtn clicked return 'scissors'
-            return 'rock';//temp value for testing purposes
-        }
-
-
-
-
+        gameStartBtn.addEventListener('click', startGame => {
+            game();
+        });
 
         function playRound(playerSelection, computerSelection) {
             let gameState = true;
 
             while (gameState) {
-                if (playerSelection.toLowerCase() == 'rock' && computerSelection == 'Scissors'
-                    || playerSelection.toLowerCase() == 'scissors' && computerSelection == 'Paper'
-                    || playerSelection.toLowerCase() == 'paper' && computerSelection == 'Rock') {
+                if (playerSelection == 'rock' && computerSelection == 'Scissors'
+                    || playerSelection == 'scissors' && computerSelection == 'Paper'
+                    || playerSelection == 'paper' && computerSelection == 'Rock') {
                     gameState = false;
                     return 1; //1 = PLAYER WINS: will be used to decide who to give points to in the game() function 
 
-                } else if (playerSelection.toLowerCase() == 'rock' && computerSelection == 'Paper'
-                    || playerSelection.toLowerCase() == 'scissors' && computerSelection == 'Rock'
-                    || playerSelection.toLowerCase() == 'paper' && computerSelection == 'Scissors') {
+                } else if (playerSelection == 'rock' && computerSelection == 'Paper'
+                    || playerSelection == 'scissors' && computerSelection == 'Rock'
+                    || playerSelection == 'paper' && computerSelection == 'Scissors') {
                     gameState = false;
                     return 1; //2 = COMPUTER WINS: will be used to decide who to give points to in the game() function 
 
@@ -131,13 +122,13 @@
             }
         }
 
-        //Starts a game of RPS. Parameter takes a num that will determine how many points it will take to win a game
-        function game(points) {
+        //Starts a game of RPS. 5 points to win a game
+        function game() {
             let turnWinner;
             let playerChoice;
             let scoreBoard;
             let playerScore = 0, computerScore = 0;
-
+            announcer.textContent = 'Choose a hand to play'
 
             for (let i = 0; i < Number.MAX_VALUE; i++) {//play until game ends when the computer or player wins enough points
                 // playerChoice = prompt("Choose Your Weapon. Type Either 'Rock', 'Paper', or 'Scissor':");
@@ -145,29 +136,30 @@
                 turnWinner = playRound(playerChoice, computerPlay()); //result of a single round played. declares who won
                 scoreBoard = `Computer points: ${computerScore}\nPlayer points: ${playerScore}`;
 
-                if (playerScore === points) {
-                    announcer.textContent =`You Win! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`;
+
+                if (playerScore === 5) {//game ends when 5 points reached
+                    announcer.textContent = `You Win! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`;
                     break;
 
-                } else if (computerScore === points) {
-                    announcer.textContent=`You Lose! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`;
+                } else if (computerScore === 5) {//game ends when 5 points reached
+                    announcer.textContent = `You Lose! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`;
                     break;
 
                 }
                 else if (addPoints(turnWinner) === 0) { //nobody wins a point, round must be replayed
-                    announcer.textContent= "Tie! Try again.";
+                    announcer.textContent = "Tie! Try again.";
                     //console.log("Tie match");
                     //console.log(scoreBoard);
 
                 } else if (addPoints(turnWinner) === 2) { //comp wins a point
                     computerScore++;
-                    announcer.textContent= 'Computer won';
-                    compScoreText.appendChild(computerScore);
+                    announcer.textContent = 'Computer won';
+                    compScoreText += computerScore;
 
                 } else { //player wins a point
                     playerScore++;
-                    announcer.textContent= 'Player won';
-                    playerScoreText.appendChild(playerScore);
+                    announcer.textContent = 'Player won';
+                    playerScoreText += playerScore;
 
                 }
             }
@@ -176,12 +168,6 @@
 
         // console.log(game(5));
 
-
-
-        //Captializes the first letter of a string value and returns it
-        function upperCaseFirst(string) {
-            return string.replace(string[0], string[0].toUpperCase());
-        }
 
         //returns who earns a point depending on who wins the round
         function addPoints(value) { //takes the current round's playRound() value
