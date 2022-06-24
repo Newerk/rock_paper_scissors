@@ -15,6 +15,18 @@
         const choices = ['Rock', 'Paper', 'Scissors'];
         let computerPlay = () => choices[Math.floor(Math.random() * 3)];
 
+        const startButton = document.createElement('div');
+        startButton.className = "start-button-container";
+
+        const gameStartBtn = document.createElement('button');
+        gameStartBtn.id = 'game-start';
+        let gameStartBtnText = document.createTextNode('Start Game');
+        gameStartBtn.appendChild(gameStartBtnText);
+        gameStartBtn.setAttribute("onclick", "game()");
+        startButton.append(gameStartBtn);
+        document.body.appendChild(startButton);
+
+
         const buttons = document.createElement('div');
         buttons.className = 'buttons';
 
@@ -42,45 +54,34 @@
         buttons.append(scissorsBtn);
         document.body.appendChild(buttons);
 
+        const scoreContainer = document.createElement('div');
+        scoreContainer.className = 'score-board-container';
+        document.body.appendChild(scoreContainer);
 
         const playerScore = document.createElement('div');
         playerScore.id = 'playerScore';
         let playerScoreText = document.createTextNode('You: ');
         playerScore.appendChild(playerScoreText);
-        document.body.appendChild(playerScore);
+        scoreContainer.appendChild(playerScore);
 
         const compScore = document.createElement('div');
         compScore.id = 'compScore';
         let compScoreText = document.createTextNode('Computer: ');
         compScore.appendChild(compScoreText);
-        document.body.appendChild(compScore);
+        scoreContainer.appendChild(compScore);
 
-
-        const scoreContainer = document.createElement('div');
-        scoreContainer.className = 'container';
-
-        const announcer = document.createElement('p');
 
         // this text content should update as the state of the game progresses("Computer Won","Player Won","Tie! Try Again",
         // "You Win! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}", "You Lose! Final Scores \nYou: ${playerScore}\n
         // Computer: ${computerScore}")
-        announcer.textContent = 'Click Start Game to Begin';
+        const announcer = document.createElement('p');
+        announcer.textContent = 'PlaceHolderText';
         document.body.appendChild(announcer);
-
-
-        const gameStartBtn = document.createElement('button');
-        gameStartBtn.id = 'game-start';
-        let gameStartBtnText = document.createTextNode('Start Game');
-        gameStartBtn.appendChild(gameStartBtnText);
-        buttons.append(gameStartBtn);
-        gameStartBtn.addEventListener('click', startGame => {
-            game();
-        });
-
 
 
         //listens for which button was clicked and returns the appropiate value
         function buttonClicked(button) {
+
             if (button == "rock") {
                 return rockBtn.id;
 
@@ -111,7 +112,7 @@
                     || playerSelection == 'scissors' && computerSelection == 'Rock'
                     || playerSelection == 'paper' && computerSelection == 'Scissors') {
                     gameState = false;
-                    return 1; //2 = COMPUTER WINS: will be used to decide who to give points to in the game() function 
+                    return 2; //2 = COMPUTER WINS: will be used to decide who to give points to in the game() function 
 
                 } else {
                     return 0; //0 = TIE: will be used to decide who to give points to in the game() function 
@@ -123,45 +124,45 @@
         //Starts a game of RPS. 5 points to win a game
         function game() {
             let turnWinner;
-            let playerChoice;
             let scoreBoard;
             let playerScore = 0, computerScore = 0;
             announcer.textContent = 'Choose a hand to play';
-
-            for (let i = 0; i < Number.MAX_VALUE; i++) {//play until game ends when the computer or player wins enough points. for some reason 
-                turnWinner = playRound(buttonClicked(), computerPlay()); //result of a single round played. declares who won
-                console.log(playerChoice);
-                scoreBoard = `Computer points: ${computerScore}\nPlayer points: ${playerScore}`;
+            startButton.style.display = 'none';//hides the start button when game begins
 
 
-                if (playerScore === 5) {//game ends when 5 points reached
-                    announcer.textContent = `You Win! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`;
-                    break;
+            for (let i = 0; i < 5; i++) {//play until game ends when the computer or player wins enough points. for some reason 
+                    turnWinner = playRound(buttonClicked(), computerPlay()); //result of a single round played. declares who won
+                    scoreBoard = `Computer points: ${computerScore}\nPlayer points: ${playerScore}`;
+                    console.log(i);
 
-                } else if (computerScore === 5) {//game ends when 5 points reached
-                    announcer.textContent = `You Lose! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`;
-                    break;
+                    if (playerScore === 5) {//game ends when 5 points reached
+                        announcer.textContent = `You Win! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`;
+                        // break;
 
-                }
-                else if (addPoints(turnWinner) === 0) { //nobody wins a point, round must be replayed
-                    announcer.textContent = "Tie! Try again.";
+                    } else if (computerScore === 5) {//game ends when 5 points reached
+                        announcer.textContent = `You Lose! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`;
+                        // break;
 
-                } else if (addPoints(turnWinner) === 2) { //comp wins a point
-                    computerScore++;
-                    announcer.textContent = 'Computer won';
-                    compScoreText += computerScore;
+                    }
+                    else if (addPoints(turnWinner) === 0) { //nobody wins a point, round must be replayed
+                        announcer.textContent = "Tie! Try again.";
 
-                } else { //player wins a point
-                    playerScore++;
-                    announcer.textContent = 'Player won';
-                    playerScoreText += playerScore;
+                    } else if (addPoints(turnWinner) === 2) { //comp wins a point
+                        computerScore++;
+                        announcer.textContent = 'Computer won';
+                        compScoreText += computerScore;
 
+                    } else { //player wins a point
+                        playerScore++;
+                        announcer.textContent = 'Player won';
+                        playerScoreText += playerScore;
+
+                    }
                 }
             }
 
-        }
+        
 
-        // console.log(game(5));
 
 
         //returns who earns a point depending on who wins the round
