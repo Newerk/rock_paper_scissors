@@ -32,19 +32,22 @@
 
         const rockBtn = document.createElement('button');
         rockBtn.id = 'rock';
-        rockBtn.setAttribute("onclick", "buttonClicked('rock')");
+        rockBtn.setAttribute("onclick", "playRound('rock', computerPlay())");
         let rockBtnText = document.createTextNode('Rock');
         rockBtn.appendChild(rockBtnText);
+ 
+
 
         const paperBtn = document.createElement('button');
         paperBtn.id = 'paper';
-        paperBtn.setAttribute("onclick", "buttonClicked('paper')");
+        paperBtn.setAttribute("onclick", "playRound('paper', computerPlay())");
         let paperBtnText = document.createTextNode('Paper');
         paperBtn.appendChild(paperBtnText);
 
+
         const scissorsBtn = document.createElement('button');
         scissorsBtn.id = 'scissors';
-        scissorsBtn.setAttribute("onclick", "buttonClicked('scissors')");
+        scissorsBtn.setAttribute("onclick", "playRound('scissors', computerPlay())");
         let scissorsBtnText = document.createTextNode('Scissors');
         scissorsBtn.appendChild(scissorsBtnText);
 
@@ -97,7 +100,6 @@
         };
 
 
-
         function playRound(playerSelection, computerSelection) {
             let gameState = true;
 
@@ -106,42 +108,50 @@
                     || playerSelection == 'scissors' && computerSelection == 'Paper'
                     || playerSelection == 'paper' && computerSelection == 'Rock') {
                     gameState = false;
+                    console.log("PLAYER WINS: will be used to decide who to give points to in the game() function ");
+
                     return 1; //1 = PLAYER WINS: will be used to decide who to give points to in the game() function 
 
                 } else if (playerSelection == 'rock' && computerSelection == 'Paper'
                     || playerSelection == 'scissors' && computerSelection == 'Rock'
                     || playerSelection == 'paper' && computerSelection == 'Scissors') {
                     gameState = false;
+                    console.log("COMPUTER WINS: will be used to decide who to give points to in the game() function");
+
                     return 2; //2 = COMPUTER WINS: will be used to decide who to give points to in the game() function 
 
                 } else {
+                    console.log("TIE: will be used to decide who to give points to in the game() function");
                     return 0; //0 = TIE: will be used to decide who to give points to in the game() function 
 
                 }
             }
         }
 
+
+
         //Starts a game of RPS. 5 points to win a game
         function game() {
+            // let playerChoice = '';
             let turnWinner;
             let scoreBoard;
             let playerScore = 0, computerScore = 0;
             announcer.textContent = 'Choose a hand to play';
             startButton.style.display = 'none';//hides the start button when game begins
+            
 
-
-            for (let i = 0; i < 5; i++) {//play until game ends when the computer or player wins enough points. for some reason 
-                    turnWinner = playRound(buttonClicked(), computerPlay()); //result of a single round played. declares who won
+            for (let i = 0; i < Number.MAX_VALUE; i++) {//play until game ends when the computer or player wins enough points. for some reason                 
+                    turnWinner = playRound('rock', computerPlay()); //result of a single round played. declares who won
                     scoreBoard = `Computer points: ${computerScore}\nPlayer points: ${playerScore}`;
-                    console.log(i);
+                    console.log(scoreBoard);
 
                     if (playerScore === 5) {//game ends when 5 points reached
                         announcer.textContent = `You Win! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`;
-                        // break;
+                        break;
 
                     } else if (computerScore === 5) {//game ends when 5 points reached
                         announcer.textContent = `You Lose! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`;
-                        // break;
+                        break;
 
                     }
                     else if (addPoints(turnWinner) === 0) { //nobody wins a point, round must be replayed
