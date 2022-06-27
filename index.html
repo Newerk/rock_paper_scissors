@@ -134,6 +134,12 @@
 
             //come back and condense all this repeated code into one. DRY(Dont Repeat Yourself). most likely will create event 
             //listener for button container instead of making event listeners for each individual button
+
+
+
+
+
+
             rockBtn.addEventListener("click", function () {
                 turnWinner = playRound('rock', computerPlay());
 
@@ -142,13 +148,10 @@
                     playerScoreText.nodeValue = `You: ${playerScore}`;
                     announcer.textContent = '';
 
-
                 } else if (turnWinner === 2) {
                     computerScore++;
                     compScoreText.nodeValue = `Computer: ${computerScore}`;
                     announcer.textContent = '';
-
-
 
                 } else {
                     announcer.textContent = 'Tie!';
@@ -169,13 +172,10 @@
                     playerScoreText.nodeValue = `You: ${playerScore}`;
                     announcer.textContent = '';
 
-
                 } else if (turnWinner === 2) {
                     computerScore++;
                     compScoreText.nodeValue = `Computer: ${computerScore}`;
                     announcer.textContent = '';
-
-
 
                 } else {
                     announcer.textContent = 'Tie!';
@@ -196,13 +196,10 @@
                     playerScoreText.nodeValue = `You: ${playerScore}`;
                     announcer.textContent = '';
 
-
                 } else if (turnWinner === 2) {
                     computerScore++;
                     compScoreText.nodeValue = `Computer: ${computerScore}`;
                     announcer.textContent = '';
-
-
 
                 } else {
                     announcer.textContent = 'Tie!';
@@ -216,31 +213,23 @@
             });
 
 
-            // let roundWinner = () => {
-
-
-            // };
-
-
             let isGameOver = () => {
-                let hideScoreBoard = () => {
-                    compScore.style.display = 'none'
-                    pScore.style.display = 'none';
-                }
-
                 if (playerScore === 5) {//game ends when 5 points reached
-                    hideScoreBoard();
+                    playerScoreText.nodeValue = `You: ${playerScore}`;
+                    compScoreText.nodeValue = `Computer: ${computerScore}`;
                     announcer.replaceWith(`You Win!`);
                     restart();
 
                 } else if (computerScore === 5) {//game ends when 5 points reached
-                    hideScoreBoard();
+                    playerScoreText.nodeValue = `You: ${playerScore}`;
+                    compScoreText.nodeValue = `Computer: ${computerScore}`;
                     announcer.replaceWith(`You Lose!`);
                     restart();
 
                 } else {
                     return;
                 }
+
             }
         }
 
