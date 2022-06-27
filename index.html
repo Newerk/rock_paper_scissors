@@ -17,7 +17,6 @@
 
         const startButton = document.createElement('div');
         startButton.className = "start-button-container";
-
         const gameStartBtn = document.createElement('button');
         gameStartBtn.id = 'game-start';
         let gameStartBtnText = document.createTextNode('Start Game');
@@ -32,22 +31,19 @@
 
         const rockBtn = document.createElement('button');
         rockBtn.id = 'rock';
-        rockBtn.setAttribute("onclick", "playRound('rock', computerPlay())");
         let rockBtnText = document.createTextNode('Rock');
         rockBtn.appendChild(rockBtnText);
- 
+
 
 
         const paperBtn = document.createElement('button');
         paperBtn.id = 'paper';
-        paperBtn.setAttribute("onclick", "playRound('paper', computerPlay())");
         let paperBtnText = document.createTextNode('Paper');
         paperBtn.appendChild(paperBtnText);
 
 
         const scissorsBtn = document.createElement('button');
         scissorsBtn.id = 'scissors';
-        scissorsBtn.setAttribute("onclick", "playRound('scissors', computerPlay())");
         let scissorsBtnText = document.createTextNode('Scissors');
         scissorsBtn.appendChild(scissorsBtnText);
 
@@ -66,38 +62,26 @@
         let playerScoreText = document.createTextNode('You: ');
         playerScore.appendChild(playerScoreText);
         scoreContainer.appendChild(playerScore);
+        let spanPlayerScore = document.createElement('p');
+        spanPlayerScore = 0;
+        playerScoreText.appendData(spanPlayerScore);
 
         const compScore = document.createElement('div');
         compScore.id = 'compScore';
         let compScoreText = document.createTextNode('Computer: ');
         compScore.appendChild(compScoreText);
         scoreContainer.appendChild(compScore);
+        let spanCompScore = document.createElement('span');
+        spanCompScore = 0;
+        compScoreText.appendData(spanCompScore);
 
 
-        // this text content should update as the state of the game progresses("Computer Won","Player Won","Tie! Try Again",
-        // "You Win! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}", "You Lose! Final Scores \nYou: ${playerScore}\n
-        // Computer: ${computerScore}")
+        // this text content should update as the state of the game progresses
         const announcer = document.createElement('p');
-        announcer.textContent = 'PlaceHolderText';
+        announcer.textContent = 'Click Start to Begin';
         document.body.appendChild(announcer);
 
 
-        //listens for which button was clicked and returns the appropiate value
-        function buttonClicked(button) {
-
-            if (button == "rock") {
-                return rockBtn.id;
-
-            } else if (button == "paper") {
-                return paperBtn.id;
-
-            } else if (button == "scissors") {
-                return scissorsBtn.id;
-
-            } else {
-                return;
-            }
-        };
 
 
         function playRound(playerSelection, computerSelection) {
@@ -108,7 +92,7 @@
                     || playerSelection == 'scissors' && computerSelection == 'Paper'
                     || playerSelection == 'paper' && computerSelection == 'Rock') {
                     gameState = false;
-                    console.log("PLAYER WINS: will be used to decide who to give points to in the game() function ");
+                    // console.log("PLAYER WINS");
 
                     return 1; //1 = PLAYER WINS: will be used to decide who to give points to in the game() function 
 
@@ -116,12 +100,12 @@
                     || playerSelection == 'scissors' && computerSelection == 'Rock'
                     || playerSelection == 'paper' && computerSelection == 'Scissors') {
                     gameState = false;
-                    console.log("COMPUTER WINS: will be used to decide who to give points to in the game() function");
+                    // console.log("COMPUTER WINS");
 
                     return 2; //2 = COMPUTER WINS: will be used to decide who to give points to in the game() function 
 
                 } else {
-                    console.log("TIE: will be used to decide who to give points to in the game() function");
+                    //console.log("TIE");
                     return 0; //0 = TIE: will be used to decide who to give points to in the game() function 
 
                 }
@@ -132,62 +116,131 @@
 
         //Starts a game of RPS. 5 points to win a game
         function game() {
-            // let playerChoice = '';
             let turnWinner;
             let scoreBoard;
             let playerScore = 0, computerScore = 0;
             announcer.textContent = 'Choose a hand to play';
             startButton.style.display = 'none';//hides the start button when game begins
-            
 
-            for (let i = 0; i < Number.MAX_VALUE; i++) {//play until game ends when the computer or player wins enough points. for some reason                 
-                    turnWinner = playRound('rock', computerPlay()); //result of a single round played. declares who won
-                    scoreBoard = `Computer points: ${computerScore}\nPlayer points: ${playerScore}`;
-                    console.log(scoreBoard);
 
-                    if (playerScore === 5) {//game ends when 5 points reached
-                        announcer.textContent = `You Win! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`;
-                        break;
 
-                    } else if (computerScore === 5) {//game ends when 5 points reached
-                        announcer.textContent = `You Lose! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`;
-                        break;
 
-                    }
-                    else if (addPoints(turnWinner) === 0) { //nobody wins a point, round must be replayed
-                        announcer.textContent = "Tie! Try again.";
+            //come back and condense all this repeated code into one. DRY(Dont Repeat Yourself). most likely will create event 
+            //listener for button container instead of making event listeners for each individual button
+            rockBtn.addEventListener("click", function () {
+                turnWinner = playRound('rock', computerPlay());
 
-                    } else if (addPoints(turnWinner) === 2) { //comp wins a point
-                        computerScore++;
-                        announcer.textContent = 'Computer won';
-                        compScoreText += computerScore;
+                if (turnWinner === 1) {
+                    playerScore++;
+                    playerScoreText.nodeValue = `You: ${playerScore}`;
+                    announcer.textContent = '';
 
-                    } else { //player wins a point
-                        playerScore++;
-                        announcer.textContent = 'Player won';
-                        playerScoreText += playerScore;
 
-                    }
+                } else if (turnWinner === 2) {
+                    computerScore++;
+                    compScoreText.nodeValue = `Computer: ${computerScore}`;
+                    announcer.textContent = '';
+
+
+
+                } else {
+                    announcer.textContent = 'Tie!';
+
+                    turnWinner = 0;
+                    playerScore += 0;
+                    computerScore += 0;
+                }
+                isGameOver();
+
+            });
+
+            paperBtn.addEventListener("click", function () {
+                turnWinner = playRound('paper', computerPlay());
+
+                if (turnWinner === 1) {
+                    playerScore++;
+                    playerScoreText.nodeValue = `You: ${playerScore}`;
+                    announcer.textContent = '';
+
+
+                } else if (turnWinner === 2) {
+                    computerScore++;
+                    compScoreText.nodeValue = `Computer: ${computerScore}`;
+                    announcer.textContent = '';
+
+
+
+                } else {
+                    announcer.textContent = 'Tie!';
+
+                    turnWinner = 0;
+                    playerScore += 0;
+                    computerScore += 0;
+                }
+                isGameOver();
+
+            });
+
+            scissorsBtn.addEventListener("click", function () {
+                turnWinner = playRound('scissors', computerPlay());
+
+                if (turnWinner === 1) {
+                    playerScore++;
+                    playerScoreText.nodeValue = `You: ${playerScore}`;
+                    announcer.textContent = '';
+
+
+                } else if (turnWinner === 2) {
+                    computerScore++;
+                    compScoreText.nodeValue = `Computer: ${computerScore}`;
+                    announcer.textContent = '';
+
+
+
+                } else {
+                    announcer.textContent = 'Tie!';
+
+                    turnWinner = 0;
+                    playerScore += 0;
+                    computerScore += 0;
+                }
+                isGameOver();
+
+            });
+
+
+
+            let isGameOver = () => {
+
+                if (playerScore === 5) {//game ends when 5 points reached
+                    announcer.replaceWith(`You Win! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`);
+                    restart();
+
+                } else if (computerScore === 5) {//game ends when 5 points reached
+                    announcer.replaceWith(`You Lose! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`);
+                    restart();
+
+                } else {
+                    return;
                 }
             }
-
-        
-
-
-
-        //returns who earns a point depending on who wins the round
-        function addPoints(value) { //takes the current round's playRound() value
-            if (value == 1) {//player gain 1 point
-                return 1;
-
-            } else if (value == 2) {//computer gain 1 point
-                return 2;
-
-            } else {//nobody gains a point
-                return 0;
-
-            }
         }
+
+        let restart = () => {
+            buttons.removeChild(rockBtn);
+            buttons.removeChild(paperBtn);
+            buttons.removeChild(scissorsBtn);
+
+            const restartBtn = document.createElement('button');
+            restartBtn.id = 'restart';
+            restartBtn.textContent = 'Restart';
+            restartBtn.addEventListener('click', function() {
+                window.location.reload();
+            })
+            document.body.appendChild(restartBtn);
+        }
+
+
     </script>
 
 </body>
