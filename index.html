@@ -28,6 +28,20 @@
         document.body.appendChild(startButton);
 
 
+        const scoreContainer = document.createElement('div');
+        scoreContainer.className = 'score-board-container';
+        document.body.appendChild(scoreContainer);
+
+        const pScore = document.createElement('div');
+        pScore.id = 'playerScore';
+        let playerScoreText = document.createTextNode('You: ');
+
+
+        const compScore = document.createElement('div');
+        compScore.id = 'compScore';
+        let compScoreText = document.createTextNode('Computer: ');
+
+
         const buttons = document.createElement('div');
         buttons.className = 'buttons';
 
@@ -48,19 +62,8 @@
 
         document.body.appendChild(buttons);
 
-
-        const scoreContainer = document.createElement('div');
-        scoreContainer.className = 'score-board-container';
-        document.body.appendChild(scoreContainer);
-
-        const pScore = document.createElement('div');
-        pScore.id = 'playerScore';
-        let playerScoreText = document.createTextNode('You: ');
-
-
-        const compScore = document.createElement('div');
-        compScore.id = 'compScore';
-        let compScoreText = document.createTextNode('Computer: ');
+        const restartBtnContainer = document.createElement('div');
+        restartBtnContainer.className= 'restart-button-container';
 
 
 
@@ -113,6 +116,7 @@
             buttons.append(rockBtn);
             buttons.append(paperBtn);
             buttons.append(scissorsBtn);
+
 
             pScore.appendChild(playerScoreText);
             scoreContainer.appendChild(pScore);
@@ -212,6 +216,11 @@
             });
 
 
+            // let roundWinner = () => {
+
+
+            // };
+
 
             let isGameOver = () => {
                 let hideScoreBoard = () => {
@@ -221,12 +230,12 @@
 
                 if (playerScore === 5) {//game ends when 5 points reached
                     hideScoreBoard();
-                    announcer.replaceWith(`You Win! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`);
+                    announcer.replaceWith(`You Win!`);
                     restart();
 
                 } else if (computerScore === 5) {//game ends when 5 points reached
                     hideScoreBoard();
-                    announcer.replaceWith(`You Lose! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`);
+                    announcer.replaceWith(`You Lose!`);
                     restart();
 
                 } else {
@@ -246,7 +255,8 @@
             restartBtn.addEventListener('click', function () {
                 window.location.reload();
             })
-            document.body.appendChild(restartBtn);
+            restartBtnContainer.appendChild(restartBtn);
+            document.body.appendChild(restartBtnContainer);
         }
 
 
