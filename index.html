@@ -46,24 +46,24 @@
         buttons.className = 'buttons';
 
         const rockBtn = document.createElement('button');
-        rockBtn.id = 'rock';
+        rockBtn.id = 'Rock';
         let rockBtnText = document.createTextNode('Rock');
         rockBtn.appendChild(rockBtnText);
 
         const paperBtn = document.createElement('button');
-        paperBtn.id = 'paper';
+        paperBtn.id = 'Paper';
         let paperBtnText = document.createTextNode('Paper');
         paperBtn.appendChild(paperBtnText);
 
         const scissorsBtn = document.createElement('button');
-        scissorsBtn.id = 'scissors';
+        scissorsBtn.id = 'Scissors';
         let scissorsBtnText = document.createTextNode('Scissors');
         scissorsBtn.appendChild(scissorsBtnText);
 
         document.body.appendChild(buttons);
 
         const restartBtnContainer = document.createElement('div');
-        restartBtnContainer.className= 'restart-button-container';
+        restartBtnContainer.className = 'restart-button-container';
 
 
 
@@ -71,38 +71,6 @@
         const announcer = document.createElement('p');
         announcer.textContent = 'Click Start to Begin';
         document.body.appendChild(announcer);
-
-
-
-
-        function playRound(playerSelection, computerSelection) {
-            let gameState = true;
-
-            while (gameState) {
-                if (playerSelection == 'rock' && computerSelection == 'Scissors'
-                    || playerSelection == 'scissors' && computerSelection == 'Paper'
-                    || playerSelection == 'paper' && computerSelection == 'Rock') {
-                    gameState = false;
-                    // console.log("PLAYER WINS");
-
-                    return 1; //1 = PLAYER WINS: will be used to decide who to give points to in the game() function 
-
-                } else if (playerSelection == 'rock' && computerSelection == 'Paper'
-                    || playerSelection == 'scissors' && computerSelection == 'Rock'
-                    || playerSelection == 'paper' && computerSelection == 'Scissors') {
-                    gameState = false;
-                    // console.log("COMPUTER WINS");
-
-                    return 2; //2 = COMPUTER WINS: will be used to decide who to give points to in the game() function 
-
-                } else {
-                    //console.log("TIE");
-                    return 0; //0 = TIE: will be used to decide who to give points to in the game() function 
-
-                }
-            }
-        }
-
 
 
         //Starts a game of RPS. 5 points to win a game
@@ -130,22 +98,25 @@
             spanCompScore = 0;
             compScoreText.appendData(spanCompScore);
 
+            buttons.addEventListener('click', function (e) {
+                let comp = computerPlay();
+                let roundWinner = () => {
+                    if (e.target !== e.currentTarget) {
+                        let result = playRound(e.target.id, comp);
+                        return result;
 
+                    }
+                };
 
-            //come back and condense all this repeated code into one. DRY(Dont Repeat Yourself). most likely will create event 
-            //listener for button container instead of making event listeners for each individual button
-            rockBtn.addEventListener("click", function () {
-                turnWinner = playRound('rock', computerPlay());
-
-                if (turnWinner === 1) {
+                if (roundWinner() === 1) {
                     playerScore++;
                     playerScoreText.nodeValue = `You: ${playerScore}`;
-                    announcer.textContent = `Round Won! Rock beats Scissors`;
+                    announcer.textContent = `Round Won! ${e.target.id} beats ${comp}`;
 
-                } else if (turnWinner === 2) {
+                } else if (roundWinner() === 2) {
                     computerScore++;
                     compScoreText.nodeValue = `Computer: ${computerScore}`;
-                    announcer.textContent = `Round Lost! Rock looses to Paper`;
+                    announcer.textContent = `Round Lost! ${e.target.id} loses to ${comp}`;
 
                 } else {
                     announcer.textContent = 'Tie!';
@@ -158,63 +129,15 @@
 
             });
 
-            paperBtn.addEventListener("click", function () {
-                turnWinner = playRound('paper', computerPlay());
-
-                if (turnWinner === 1) {
-                    playerScore++;
-                    playerScoreText.nodeValue = `You: ${playerScore}`;
-                    announcer.textContent = `Round Won! Paper beats Rock`;
-
-                } else if (turnWinner === 2) {
-                    computerScore++;
-                    compScoreText.nodeValue = `Computer: ${computerScore}`;
-                    announcer.textContent = `Round Lost! Paper loses to Scissors`;
-
-                } else {
-                    announcer.textContent = 'Tie!';
-
-                    turnWinner = 0;
-                    playerScore += 0;
-                    computerScore += 0;
-                }
-                isGameOver();
-
-            });
-
-            scissorsBtn.addEventListener("click", function () {
-                turnWinner = playRound('scissors', computerPlay());
-
-                if (turnWinner === 1) {
-                    playerScore++;
-                    playerScoreText.nodeValue = `You: ${playerScore}`;
-                    announcer.textContent = `Round Won! Scissors beats Paper`;
-
-                } else if (turnWinner === 2) {
-                    computerScore++;
-                    compScoreText.nodeValue = `Computer: ${computerScore}`;
-                    announcer.textContent = `Round Lost! Scissors loses to Rock`;
-
-                } else {
-                    announcer.textContent = 'Tie!';
-
-                    turnWinner = 0;
-                    playerScore += 0;
-                    computerScore += 0;
-                }
-                isGameOver();
-
-            });
-
-
+            //game ends when 5 points reached by the player or computer
             let isGameOver = () => {
-                if (playerScore === 5) {//game ends when 5 points reached
+                if (playerScore === 5) {
                     playerScoreText.nodeValue = `You: ${playerScore}`;
                     compScoreText.nodeValue = `Computer: ${computerScore}`;
                     announcer.replaceWith(`You Win!`);
                     restart();
 
-                } else if (computerScore === 5) {//game ends when 5 points reached
+                } else if (computerScore === 5) {
                     playerScoreText.nodeValue = `You: ${playerScore}`;
                     compScoreText.nodeValue = `Computer: ${computerScore}`;
                     announcer.replaceWith(`You Lose!`);
@@ -227,7 +150,32 @@
             }
         }
 
-        let restart = () => {
+        function playRound(playerSelection, computerSelection) {
+            let gameState = true;
+
+            while (gameState) {
+                if (playerSelection == 'Rock' && computerSelection == 'Scissors'
+                    || playerSelection == 'Scissors' && computerSelection == 'Paper'
+                    || playerSelection == 'Paper' && computerSelection == 'Rock') {
+                    gameState = false;
+
+                    return 1; //PLAYER WINS: will be used to decide who to give points to in the game() function 
+
+                } else if (playerSelection == 'Rock' && computerSelection == 'Paper'
+                    || playerSelection == 'Scissors' && computerSelection == 'Rock'
+                    || playerSelection == 'Paper' && computerSelection == 'Scissors') {
+                    gameState = false;
+
+                    return 2; //COMPUTER WINS: will be used to decide who to give points to in the game() function 
+
+                } else {
+                    return 0; //TIE: will be used to decide who to give points to in the game() function 
+
+                }
+            }
+        }
+
+        function restart() {
             buttons.removeChild(rockBtn);
             buttons.removeChild(paperBtn);
             buttons.removeChild(scissorsBtn);
