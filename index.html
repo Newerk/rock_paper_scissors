@@ -134,24 +134,18 @@
 
             //come back and condense all this repeated code into one. DRY(Dont Repeat Yourself). most likely will create event 
             //listener for button container instead of making event listeners for each individual button
-
-
-
-
-
-
             rockBtn.addEventListener("click", function () {
                 turnWinner = playRound('rock', computerPlay());
 
                 if (turnWinner === 1) {
                     playerScore++;
                     playerScoreText.nodeValue = `You: ${playerScore}`;
-                    announcer.textContent = '';
+                    announcer.textContent = `Round Won! Rock beats Scissors`;
 
                 } else if (turnWinner === 2) {
                     computerScore++;
                     compScoreText.nodeValue = `Computer: ${computerScore}`;
-                    announcer.textContent = '';
+                    announcer.textContent = `Round Lost! Rock looses to Paper`;
 
                 } else {
                     announcer.textContent = 'Tie!';
@@ -170,12 +164,12 @@
                 if (turnWinner === 1) {
                     playerScore++;
                     playerScoreText.nodeValue = `You: ${playerScore}`;
-                    announcer.textContent = '';
+                    announcer.textContent = `Round Won! Paper beats Rock`;
 
                 } else if (turnWinner === 2) {
                     computerScore++;
                     compScoreText.nodeValue = `Computer: ${computerScore}`;
-                    announcer.textContent = '';
+                    announcer.textContent = `Round Lost! Paper loses to Scissors`;
 
                 } else {
                     announcer.textContent = 'Tie!';
@@ -194,12 +188,12 @@
                 if (turnWinner === 1) {
                     playerScore++;
                     playerScoreText.nodeValue = `You: ${playerScore}`;
-                    announcer.textContent = '';
+                    announcer.textContent = `Round Won! Scissors beats Paper`;
 
                 } else if (turnWinner === 2) {
                     computerScore++;
                     compScoreText.nodeValue = `Computer: ${computerScore}`;
-                    announcer.textContent = '';
+                    announcer.textContent = `Round Lost! Scissors loses to Rock`;
 
                 } else {
                     announcer.textContent = 'Tie!';
