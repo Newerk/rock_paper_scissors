@@ -43,7 +43,7 @@ body {
 #Scissors {
     height: 500px;
     width: 370px;
-    background-image: url('/cards/card-background.png');
+    background-image: url('cards/card-background.png');
     border-radius: 15px;
 
 }
