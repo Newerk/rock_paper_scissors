@@ -1,0 +1,26 @@
+.buttons {
+display: flex;
+justify-content: space-around;
+flex-direction: row;
+margin: auto;
+border: 2px solid red;
+}
+
+button span {
+  display: none;
+}
+
+.start-button-container, .score-board-container {
+    border: 2px solid red;
+    display: flex;
+    justify-content: center;
+}
+
+.score-board-container {
+    justify-content: space-between;
+    margin-left: 500px;
+    margin-right: 500px;
+}
+
+
+
