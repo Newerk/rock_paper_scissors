@@ -1,19 +1,23 @@
+body {
+    background-image: url('bg-recolor.png');
+    background-repeat: repeat;
+}
+
 .buttons {
 display: flex;
 justify-content: space-around;
 flex-direction: row;
 margin: auto;
-border: 2px solid red;
-}
-
-button span {
-  display: none;
 }
 
 .start-button-container, .score-board-container {
-    border: 2px solid red;
     display: flex;
     justify-content: center;
+}
+
+.score-board-container {
+margin-top: 5px;
+margin-bottom: 100px;
 }
 
 .score-board-container {
@@ -22,5 +26,39 @@ button span {
     margin-right: 500px;
 }
 
+#Rock, #Paper, #Scissors{
+    height: 500px;
+    width: 370px;
+    background-image:url('/cards/card-background.png');
+    border-radius: 5px;
+
+}
 
 
+img:hover {
+    transform: translateY(-3px);
+    transition: transform .7s ease-in-out;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    
+}
+
+#Rock:active, #Paper:active, #Scissors:active {
+    transform: translateY(4px);
+    transition: transform 0s ease-in-out;
+
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+
+}
+
+#game-start {
+    background-color: transparent;    
+    transition: background-color 1s ease-in-out;
+  
+
+
+}
+#game-start:hover{
+    background-color: rgba(174, 0, 255, 0.667);
+
+
+}

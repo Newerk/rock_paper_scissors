@@ -18,11 +18,12 @@
 
         const startButton = document.createElement('div');
         startButton.className = "start-button-container";
-        const gameStartBtn = document.createElement('button');
+        const gameStartBtn = document.createElement('img');
+        gameStartBtn.src= 'startbtn-test.png';
         gameStartBtn.id = 'game-start';
         let gameStartBtnText = document.createTextNode('Start Game');
         gameStartBtn.appendChild(gameStartBtnText);
-        gameStartBtn.setAttribute("onclick", "game()");
+        gameStartBtn.setAttribute('onclick', 'game()')
         startButton.append(gameStartBtn);
         document.body.appendChild(startButton);
 
@@ -44,17 +45,20 @@
         const buttons = document.createElement('div');
         buttons.className = 'buttons';
 
-        const rockBtn = document.createElement('button');
+        const rockBtn = document.createElement('img');
+        rockBtn.src = '/cards/rock-card1.png';
         rockBtn.id = 'Rock';
         let rockBtnText = document.createTextNode('Rock');
         rockBtn.appendChild(rockBtnText);
 
-        const paperBtn = document.createElement('button');
+        const paperBtn = document.createElement('img');
+        paperBtn.src = '/cards/paper-card1.png';
         paperBtn.id = 'Paper';
         let paperBtnText = document.createTextNode('Paper');
         paperBtn.appendChild(paperBtnText);
 
-        const scissorsBtn = document.createElement('button');
+        const scissorsBtn = document.createElement('img');
+        scissorsBtn.src = '/cards/scissors-card1.png';
         scissorsBtn.id = 'Scissors';
         let scissorsBtnText = document.createTextNode('Scissors');
         scissorsBtn.appendChild(scissorsBtnText);
