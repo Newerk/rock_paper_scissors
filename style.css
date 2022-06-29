@@ -15,8 +15,8 @@ body {
 
 .buttons {
     display: flex;
-    justify-content: space-around;
-    flex-direction: row;
+    justify-content: center;
+    gap: 70px;
     margin: auto;
 }
 
@@ -30,7 +30,8 @@ body {
 
 .score-board-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 400px;
     margin-left: 500px;
     margin-right: 500px;
     margin-top: 5px;
