@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <link rel="javascript" href="javascript.js">
     <title>Rock Paper Scissors</title>
 </head>
 
@@ -14,95 +13,191 @@
     <script>
         const choices = ['Rock', 'Paper', 'Scissors'];
         let computerPlay = () => choices[Math.floor(Math.random() * 3)];
+        document.write("<br>");
+
+
+        const startButton = document.createElement('div');
+        startButton.className = "start-button-container";
+        const gameStartBtn = document.createElement('img');
+        gameStartBtn.src= '/images/startbtn.png';
+        gameStartBtn.id = 'game-start';
+        let gameStartBtnText = document.createTextNode('Start Game');
+        gameStartBtn.appendChild(gameStartBtnText);
+        gameStartBtn.setAttribute('onclick', 'game()')
+        startButton.append(gameStartBtn);
+        document.body.appendChild(startButton);
+
+
+        const scoreContainer = document.createElement('div');
+        scoreContainer.className = 'score-board-container';
+        document.body.appendChild(scoreContainer);
+        
+
+        const pScore = document.createElement('div');
+        pScore.id = 'playerScore';
+        let playerScoreText = document.createTextNode('You: ');
+
+
+        const compScore = document.createElement('div');
+        compScore.id = 'compScore';
+        let compScoreText = document.createTextNode('Computer: ');
+
+
+        const buttons = document.createElement('div');
+        buttons.className = 'buttons';
+
+        const rockBtn = document.createElement('img');
+        rockBtn.src = '/cards/rock-card1.png';
+        rockBtn.id = 'Rock';
+        let rockBtnText = document.createTextNode('Rock');
+        rockBtn.appendChild(rockBtnText);
+
+        const paperBtn = document.createElement('img');
+        paperBtn.src = '/cards/paper-card1.png';
+        paperBtn.id = 'Paper';
+        let paperBtnText = document.createTextNode('Paper');
+        paperBtn.appendChild(paperBtnText);
+
+        const scissorsBtn = document.createElement('img');
+        scissorsBtn.src = '/cards/scissors-card1.png';
+        scissorsBtn.id = 'Scissors';
+        let scissorsBtnText = document.createTextNode('Scissors');
+        scissorsBtn.appendChild(scissorsBtnText);
+
+        document.body.appendChild(buttons);
+
+        const restartBtnContainer = document.createElement('div');
+        restartBtnContainer.className = 'restart-button-container';
+
+
+
+        // this text content should update as the state of the game progresses
+        const announcer = document.createElement('p');
+        announcer.textContent = '';
+        document.body.appendChild(announcer);
+
+
+        //Starts a game of RPS. 5 points to win a game
+        function game() {
+            let turnWinner;
+            let scoreBoard;
+            let playerScore = 0, computerScore = 0;
+
+
+            announcer.textContent = 'Choose your card';
+            startButton.style.display = 'none';//hides the start button when game begins
+
+            buttons.append(rockBtn);
+            buttons.append(paperBtn);
+            buttons.append(scissorsBtn);
+
+
+            pScore.appendChild(playerScoreText);
+            scoreContainer.appendChild(pScore);
+            let spanPlayerScore = document.createElement('p');
+            spanPlayerScore = 0;
+            playerScoreText.appendData(spanPlayerScore);
+
+            compScore.appendChild(compScoreText);
+            scoreContainer.appendChild(compScore);
+            let spanCompScore = document.createElement('span');
+            spanCompScore = 0;
+            compScoreText.appendData(spanCompScore);
+
+            buttons.addEventListener('click', function (e) {
+                let comp = computerPlay();
+                let roundWinner = () => {
+                    if (e.target !== e.currentTarget) {
+                        let result = playRound(e.target.id, comp);
+                        return result;
+
+                    }
+                };
+
+                if (roundWinner() === 1) {
+                    playerScore++;
+                    playerScoreText.nodeValue = `You: ${playerScore}`;
+                    announcer.textContent = `Round Won! ${e.target.id} beats ${comp}`;
+
+                } else if (roundWinner() === 2) {
+                    computerScore++;
+                    compScoreText.nodeValue = `Computer: ${computerScore}`;
+                    announcer.textContent = `Round Lost! ${e.target.id} loses to ${comp}`;
+
+                } else {
+                    announcer.textContent = 'Tie!';
+
+                    turnWinner = 0;
+                    playerScore += 0;
+                    computerScore += 0;
+                }
+                isGameOver();
+
+            });
+
+            //game ends when 5 points reached by the player or computer
+            let isGameOver = () => {
+                if (playerScore === 5) {
+                    playerScoreText.nodeValue = `You: ${playerScore}`;
+                    compScoreText.nodeValue = `Computer: ${computerScore}`;
+                    announcer.replaceWith(`You Win!`);
+                    restart();
+
+                } else if (computerScore === 5) {
+                    playerScoreText.nodeValue = `You: ${playerScore}`;
+                    compScoreText.nodeValue = `Computer: ${computerScore}`;
+                    announcer.replaceWith(`You Lose!`);
+                    restart();
+
+                } else {
+                    return;
+                }
+
+            }
+        }
 
         function playRound(playerSelection, computerSelection) {
             let gameState = true;
 
             while (gameState) {
-                if (playerSelection.toLowerCase() == 'rock' && computerSelection == 'Scissors'
-                    || playerSelection.toLowerCase() == 'scissors' && computerSelection == 'Paper'
-                    || playerSelection.toLowerCase() == 'paper' && computerSelection == 'Rock') {
+                if (playerSelection == 'Rock' && computerSelection == 'Scissors'
+                    || playerSelection == 'Scissors' && computerSelection == 'Paper'
+                    || playerSelection == 'Paper' && computerSelection == 'Rock') {
                     gameState = false;
-                    return 1; //PLAYER WINS: will be used to decide who to give points to in the game() function
 
-                } else if (playerSelection.toLowerCase() == 'rock' && computerSelection == 'Paper'
-                    || playerSelection.toLowerCase() == 'scissors' && computerSelection == 'Rock'
-                    || playerSelection.toLowerCase() == 'paper' && computerSelection == 'Scissors') {
+                    return 1; //PLAYER WINS: will be used to decide who to give points to in the game() function 
+
+                } else if (playerSelection == 'Rock' && computerSelection == 'Paper'
+                    || playerSelection == 'Scissors' && computerSelection == 'Rock'
+                    || playerSelection == 'Paper' && computerSelection == 'Scissors') {
                     gameState = false;
-                    return 2; //COMPUTER WINS: will be used to decide who to give points to in the game() function
+
+                    return 2; //COMPUTER WINS: will be used to decide who to give points to in the game() function 
 
                 } else {
-                    return 0; //TIE: will be used to decide who to give points to in the game() function
+                    return 0; //TIE: will be used to decide who to give points to in the game() function 
 
                 }
             }
         }
 
-        //Starts a game of RPS. Parameter takes a num that will determine how many points it will take to win a game
-        function game(points) {
-            let turnWinner;
-            let playerChoice;
-            let scoreBoard; 
-            let playerScore = 0, computerScore = 0;
+        function restart() {
+            buttons.removeChild(rockBtn);
+            buttons.removeChild(paperBtn);
+            buttons.removeChild(scissorsBtn);
 
-
-            for (let i = 0; i < Number.MAX_VALUE; i++) {//play until game ends when the computer or player wins enough points
-                playerChoice = prompt("Choose Your Weapon. Type Either 'Rock', 'Paper', or 'Scissor':");
-                turnWinner = playRound(playerChoice, computerPlay()); //result of a single round played. declares who won
-                scoreBoard = `Computer points: ${computerScore}\nPlayer points: ${playerScore}`;
-
-                    if (playerScore === points) {
-                        console.log(`You Win! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`);
-                        break;
-
-                    } else if (computerScore === points) {
-                        console.log(`You Lose! Final Scores \nYou: ${playerScore}\nComputer: ${computerScore}`);
-                        break;
-
-                    }
-                    else if (addPoints(turnWinner) === 0) { //nobody wins a point, round must be replayed
-                        console.log(prompt("Tie! Try again."));
-                        console.log("Tie match");
-                        console.log(scoreBoard);
-
-                    } else if (addPoints(turnWinner) === 2) { //comp wins a point
-                        computerScore++;
-                        console.log('Computer won');
-                        console.log(scoreBoard);
-
-
-                    } else { //player wins a point
-                        playerScore++;
-                        console.log('Player won');
-                        console.log(scoreBoard);
-
-                    }
-                }
-
-            }
-
-        console.log(game(5));
-
-
-
-        //Captializes the first letter of a string value and returns it
-        function upperCaseFirst(string) {
-            return string.replace(string[0], string[0].toUpperCase());
+            const restartBtn = document.createElement('img');
+            restartBtn.src = '/images/restartBtn.png';
+            restartBtn.id = 'restart';
+            restartBtn.textContent = 'Restart';
+            restartBtn.addEventListener('click', function () {
+                window.location.reload();
+            })
+            restartBtnContainer.appendChild(restartBtn);
+            document.body.appendChild(restartBtnContainer);
         }
 
-        //returns who earns a point depending on who wins the round
-        function addPoints(value) { //takes the current round's playRound() value
-            if (value == 1) {//player gain 1 point
-                return 1;
 
-            } else if (value == 2) {//computer gain 1 point
-                return 2;
-
-            } else {//nobody gains a point
-                return 0;
-
-            }
-        }
     </script>
 
 </body>
