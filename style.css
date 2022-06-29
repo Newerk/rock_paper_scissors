@@ -1,64 +1,111 @@
 body {
     background-image: url('bg-recolor.png');
     background-repeat: repeat;
+    font-family: 'Luminari';
+    font-size: 80px;
+    color: #fff;
+    text-align: center;
+    color: #fff;
+    text-shadow:
+
+      0 0 10px #fff,
+      0 0 42px rgb(220, 62, 10),
+      0 0 82px rgb(220, 62, 10);
 }
 
 .buttons {
-display: flex;
-justify-content: space-around;
-flex-direction: row;
-margin: auto;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    margin: auto;
 }
 
-.start-button-container, .score-board-container {
+.start-button-container {
     display: flex;
     justify-content: center;
+    align-items: center;
+    height: 700px;
 }
 
-.score-board-container {
-margin-top: 5px;
-margin-bottom: 100px;
-}
 
 .score-board-container {
+    display: flex;
     justify-content: space-between;
     margin-left: 500px;
     margin-right: 500px;
+    margin-top: 5px;
+    margin-bottom: 100px;
 }
 
-#Rock, #Paper, #Scissors{
+#Rock,
+#Paper,
+#Scissors {
     height: 500px;
     width: 370px;
-    background-image:url('/cards/card-background.png');
-    border-radius: 5px;
+    background-image: url('/cards/card-background.png');
+    border-radius: 15px;
+
+}
+
+img {
+    transition: box-shadow .3s ease-in-out,
+    transform .5s;
 
 }
 
 
 img:hover {
     transform: translateY(-3px);
-    transition: transform .7s ease-in-out;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    
+    box-shadow:  
+    0 0 2px rgb(220, 62, 10),
+    0 0 43px rgb(220, 62, 10);
 }
 
-#Rock:active, #Paper:active, #Scissors:active {
-    transform: translateY(4px);
-    transition: transform 0s ease-in-out;
-
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-
+#Rock:active,
+#Paper:active,
+#Scissors:active {
+    transform: translateY(-1px);
 }
 
 #game-start {
-    background-color: transparent;    
-    transition: background-color 1s ease-in-out;
-  
+    background-color: black;
+    transition: background-color 2s ease-in-out, 
+    box-shadow 2s ease-in-out,
+    transform 1.8s;
+    border-radius: 15px;
+    position: absolute;
+    top: auto;
+    left: auto;
+    margin: -25px 0 0 -25px;
+}
 
+#game-start:hover, #restart:hover {
+    background-color: rgba(220, 62, 10, 0.77);
+    box-shadow:  
+    0 0 42px rgb(220, 62, 10),
+    0 0 151px rgb(220, 62, 10);
 
 }
-#game-start:hover{
-    background-color: rgba(174, 0, 255, 0.667);
 
+#game-start:active, #restart:active{
+    transform: translateY(-1px);
 
 }
+
+p {
+    display: flex;
+    justify-content: center;
+
+}
+
+#restart {
+    margin: 100px;
+    background-color: black;
+    transition: background-color 2s ease-in-out, 
+    box-shadow 2s ease-in-out,
+    transform 1.8s;
+    border-radius: 15px;
+
+}
+
+

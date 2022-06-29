@@ -31,6 +31,7 @@
         const scoreContainer = document.createElement('div');
         scoreContainer.className = 'score-board-container';
         document.body.appendChild(scoreContainer);
+        
 
         const pScore = document.createElement('div');
         pScore.id = 'playerScore';
@@ -72,7 +73,7 @@
 
         // this text content should update as the state of the game progresses
         const announcer = document.createElement('p');
-        announcer.textContent = 'Click Start to Begin';
+        announcer.textContent = '';
         document.body.appendChild(announcer);
 
 
@@ -81,7 +82,9 @@
             let turnWinner;
             let scoreBoard;
             let playerScore = 0, computerScore = 0;
-            announcer.textContent = 'Choose a hand to play';
+
+
+            announcer.textContent = 'Choose your card';
             startButton.style.display = 'none';//hides the start button when game begins
 
             buttons.append(rockBtn);
@@ -183,7 +186,8 @@
             buttons.removeChild(paperBtn);
             buttons.removeChild(scissorsBtn);
 
-            const restartBtn = document.createElement('button');
+            const restartBtn = document.createElement('img');
+            restartBtn.src = 'restartBtn.png';
             restartBtn.id = 'restart';
             restartBtn.textContent = 'Restart';
             restartBtn.addEventListener('click', function () {
