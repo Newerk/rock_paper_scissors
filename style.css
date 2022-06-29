@@ -31,18 +31,18 @@ body {
 .score-board-container {
     display: flex;
     justify-content: center;
-    gap: 400px;
-    margin-left: 500px;
-    margin-right: 500px;
-    margin-top: 5px;
-    margin-bottom: 100px;
+    gap: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 2%;
+    margin-bottom: 8%;
 }
 
 #Rock,
 #Paper,
 #Scissors {
-    height: 500px;
-    width: 370px;
+    height: 400px;
+    width: 290px;
     background-image: url('cards/card-background.png');
     border-radius: 15px;
 
@@ -74,10 +74,7 @@ img:hover {
     box-shadow 2s ease-in-out,
     transform 1.8s;
     border-radius: 15px;
-    position: absolute;
-    top: auto;
-    left: auto;
-    margin: -25px 0 0 -25px;
+    /* position: absolute; */
 }
 
 #game-start:hover, #restart:hover {
@@ -100,7 +97,7 @@ p {
 }
 
 #restart {
-    margin: 100px;
+    margin: 5%;
     background-color: black;
     transition: background-color 2s ease-in-out, 
     box-shadow 2s ease-in-out,
